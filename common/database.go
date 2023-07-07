@@ -19,7 +19,7 @@ var (
 	charset    string = "utf8"
 )
 
-var dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s", dbUsername, dbPassword, ipAddress, port, dbName, charset)
+var dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&timeout=2s&readTimeout=6s&interpolateParams=true&parseTime=True&loc=Local", dbUsername, dbPassword, ipAddress, port, dbName, charset)
 
 //默认连接方式
 //var db, err = sql.Open("mysql", dsn)
@@ -48,7 +48,12 @@ func GetDB() *gorm.DB {
 }
 
 func Migrate(db *gorm.DB) {
+	err := db.AutoMigrate()
 
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 func GetError() error {

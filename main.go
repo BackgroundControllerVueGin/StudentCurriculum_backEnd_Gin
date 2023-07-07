@@ -1,6 +1,7 @@
 package main
 
 import (
+	"StudentCurriculum_backEnd_Gin/common"
 	"StudentCurriculum_backEnd_Gin/routes"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -9,8 +10,10 @@ import (
 )
 
 func main() {
+
 	fmt.Println("ginRunningServe")
 	gin_server := gin.New()
+
 	gin_server.Use(gin.Logger())
 	gin_server.Use(gin.Recovery())
 	gin_server.Use(Cors())
@@ -19,7 +22,8 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	common.InitRedis()
+	common.InitDB()
 }
 
 // Cors 防止跨域问题
